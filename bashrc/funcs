@@ -1,0 +1,31 @@
+function mkd
+{
+    mkdir "$1"
+    cd "$1"
+}
+function rmd
+{
+    cd ..
+    rmdir "$OLDPWD"
+}
+function run
+{
+    cd /tmp
+    nohup "$@" &
+    cd -
+}
+PATH=$PATH:~/bin
+alias l="ls"
+alias la="ls -a"
+alias ll="ls -l"
+alias nano="nano --smooth --morespace"
+alias cal="ncal -yM" 
+alias filemgr=pcmanfm
+alias p="mpv --no-video"
+function b
+{
+    cd /tmp
+    nohup firefox & 
+    cd -
+}
+
