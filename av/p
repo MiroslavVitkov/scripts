@@ -1,0 +1,5 @@
+#!/bin/sh
+for dir in "$@"; do
+	find "$dir" -name '*.flac' -exec play {} \;
+	find "$dir" -name '*.mp3' -exec play {} \;
+done
