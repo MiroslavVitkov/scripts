@@ -27,7 +27,7 @@ test()
     traceroute abv.bg
 }
 
-
+# TODO: first test the connection!!!
 main()
 {
     while [ true ]; do

@@ -5,4 +5,5 @@
 
 # Depends on: iwlist(from iwtools)
 
-iwlist scan 2>/dev/null | grep 'Encryption key:off' -C1
+STRING='Encryption key:off'
+iwlist scan 2>/dev/null | grep "$STRING" -C1 | grep -v "$STRING"
