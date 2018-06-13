@@ -3,21 +3,29 @@
 # Do make the config file readable only by root!
 
 
-IFACE=wlp1s0
-CONF=/etc/wpa_supplicant/conf
-
+IFACE='wlp1s0'
+CONF='/etc/wpa_supplicant/conf'
+TMPFILE='tmp/connect.sh.tmp.verytemporaryfile'
 
 # Used for debug tracing.
 log()
 {
-    echo "log: $1"
+    :                  # No logs
+    echo "log: $1"     # Log to stdout
+                       # Log to a file
+}
+
+
+say()
+{
+    espeak -v us-mbrola-1 "$1"
 }
 
 
 clean_up()
 {
     log 'Cleaning up.'
-    killall wpa_supplicant dhclient
+    killall wpa_supplicant dhclient 1> xargs log 2> xargs log
     sleep 1
 }
 
@@ -25,15 +33,15 @@ clean_up()
 connect()
 {
     log 'Connecting.'
-    wpa_supplicant -c"$CONF" -i"$IFACE" -B
-    dhclient -v "$IFACE"
+    wpa_supplicant -c"$CONF" -i"$IFACE" -B 1>/dev/null 2>/dev/null
+    dhclient -v "$IFACE" 1>/dev/null 2>/dev/null
 }
 
 
 # Continuously check that all is good.
 test()
 {
-    traceroute abv.bg 1> /dev/null 2>/dev/null
+    traceroute abv.bg 1>/dev/null 2>/dev/null
     if [ $? -eq 0 ]; then
         echo 'true'
     else
@@ -45,14 +53,14 @@ test()
 connection_lost()
 {
     log 'Connection lost.'
-    espeak 'Internet connection lost! Reconnecting...'
+    say 'Internet connection lost! Reconnecting...'
 }
 
 
 connection_established()
 {
     log 'Connection established.'
-    espeak 'Internet connection established.'
+    say 'Internet connection established.'
 }
 
 
