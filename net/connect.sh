@@ -25,7 +25,7 @@ say()
 clean_up()
 {
     log 'Cleaning up.'
-    killall wpa_supplicant dhclient 1> xargs log 2> xargs log
+    killall wpa_supplicant dhclient 1> xargs log 2> xargs log  # BUG: creates file 'xargs'
     sleep 1
 }
 
@@ -53,14 +53,14 @@ test()
 connection_lost()
 {
     log 'Connection lost.'
-    say 'Internet connection lost! Reconnecting...'
+    say 'disconnected'
 }
 
 
 connection_established()
 {
     log 'Connection established.'
-    say 'Internet connection established.'
+    say 'connected'
 }
 
 
