@@ -25,7 +25,9 @@ say()
 clean_up()
 {
     log 'Cleaning up.'
-    killall wpa_supplicant dhclient 1> xargs log 2> xargs log  # BUG: creates file 'xargs'
+    killall wpa_supplicant dhclient
+    ifdown "$IFACE"
+    ifup "$IFACE"
     sleep 1
 }
 
@@ -33,7 +35,7 @@ clean_up()
 connect()
 {
     log 'Connecting.'
-    wpa_supplicant -c"$CONF" -i"$IFACE" -B 1>/dev/null 2>/dev/null
+    wpa_supplicant -c"$CONF" -i"$IFACE" -B
     dhclient -v "$IFACE" 1>/dev/null 2>/dev/null
 }
 
