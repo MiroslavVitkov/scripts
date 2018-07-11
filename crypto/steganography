@@ -1,0 +1,2 @@
+$ cat file1.gif >> outfile.gif
+$ cat file2.zip >> outfile.gif
