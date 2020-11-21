@@ -1,30 +1,28 @@
+# In this file:
+                  - utility bash functions
+
+
+# Create a local directoey and change into it.
 function mkd
 {
     mkdir "$1"
     cd "$1"
 }
+
+
+# Discard the current directory if empty.
 function rmd
 {
     cd ..
     rmdir "$OLDPWD"
 }
+
+
+# Execute a program and don't care about parent shell or output.
 function run
 {
     cd /tmp
     nohup "$@" &
-    cd -
-}
-PATH=$PATH:~/bin
-alias l="ls"
-alias la="ls -a"
-alias ll="ls -l"
-alias cal="ncal -yM" 
-alias filemgr=pcmanfm
-alias p="mpv --no-video"
-function b
-{
-    cd /tmp
-    nohup firefox & 
     cd -
 }
 
