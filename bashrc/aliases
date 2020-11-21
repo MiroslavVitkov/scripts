@@ -1,0 +1,9 @@
+# In this file:
+#                 - minor modifications to some GNU tools
+
+
+alias la="ls -a"
+alias ll="ls -l"
+alias l="ls"
+
+alias nano="nano --guidestripe 100 --emptyline --linenumbers -s aspell --nohelp"
