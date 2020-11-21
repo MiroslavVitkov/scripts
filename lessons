@@ -1,0 +1,5 @@
+#In Python, classes are object factories defined by the class statement, and returned by the type(obj) built-in function. Class is a dynamic, runtime concept.
+#ip -d a
+
+#netcat can produce almost any kind of connection its user could need and has a number of built-in capabilities.
+#Its list of features includes port scanning, transferring files, and port listening, and it can be used as a backdoor. 
