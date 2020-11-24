@@ -3,3 +3,17 @@
 
 #netcat can produce almost any kind of connection its user could need and has a number of built-in capabilities.
 #Its list of features includes port scanning, transferring files, and port listening, and it can be used as a backdoor. 
+
+# mtr is much sexier than ping and traceroute.
+
+#nvidia-smi
+#intel-gpu-top
+
+# Inspect filesystems.
+#du df lsblk
+
+# Remember a linear system's response is natural response + forced responce*input stimulus.
+#Y(s) = m(s)/q(s) + P(s)/q(s)*X(s)
+
+# Pipe flow thermodynamics.
+https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation
