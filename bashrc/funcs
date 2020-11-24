@@ -1,5 +1,5 @@
 # In this file:
-                  - utility bash functions
+#                  - utility bash functions
 
 
 # Create a local directoey and change into it.
@@ -26,3 +26,7 @@ function run
     cd -
 }
 
+function myfind
+{
+    find / -name "$1" 2>/dev/null
+}
