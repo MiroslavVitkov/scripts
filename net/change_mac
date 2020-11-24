@@ -1,0 +1,15 @@
+First, turn off the Network card using command:
+
+$ ip link set dev enp3s0 down
+
+Next, set the new MAC is using command:
+
+$ ip link set dev enp3s0 address 50:B7:00:00:00:01
+
+Finally, turn it on back with command:
+
+$ ip link set dev enp3s0 up
+
+Now, verify new MAC id using command:
+
+$ ip link show enp0s3
