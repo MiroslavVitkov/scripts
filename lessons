@@ -6,6 +6,7 @@
 
 # mtr is much sexier than ping and traceroute.
 
+# GPU performance
 #nvidia-smi
 #intel-gpu-top
 
