@@ -2,7 +2,7 @@
 #                  - utility bash functions
 
 
-# Create a local directoey and change into it.
+# Create a local directory and change into it.
 function mkd
 {
     mkdir "$1"
@@ -19,13 +19,21 @@ function rmd
 
 
 # Execute a program and don't care about parent shell or output.
-function run
+function run-cli
 {
-    cd /tmp
-    nohup "$@" &
-    cd -
+    nohup "$@" >/dev/null &
 }
 
+
+# Start a program into an X server on the current VT.
+function run-gui
+{
+    let _DISPLAY=$XDG_VTNR-1
+    xinit -geometry =1920x1080+0+0 $@ -- :$_DISPLAY vt$XDG_VTNR
+}
+
+
+# Look everywhere.
 function myfind
 {
     find / -name "$1" 2>/dev/null

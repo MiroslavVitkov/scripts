@@ -18,3 +18,31 @@
 
 # Pipe flow thermodynamics.
 https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation
+
+ALU/FPU calculations
+1. Calculate in a single clock
+2. Pipeline
+3. Iterate
+4. Co-processor
+5. Software libraries.
+
+
+# Root locus method
+Rule 1: The closed loop poles move from the open loop poles to the open loop zeroes or to infinity.
+Rule 2: The RL layes on the real axis to the left of an odd number of singularities.
+Rule 3: The RL goes to infinity at 180(2k1)/(#p - #z)
+Rule 4: (sum(p)  sum(z))/(#p - #z) is the central point
+Rule 5: The gain at a point is mult(distances to point) / mult(distances to zeroes)
+
+
+# while IFS= read -r line; do echo ; done < kur.js
+
+
+# cat file.txt | grep Exception | sort | uniq -c | sort -n
+#      1 ExceptionD
+#      2 ExceptionA
+#      3 ExceptionB
+
+# ss
+
+# package fbida provides fbi - see images on virtual terminals!; fdpdf ...

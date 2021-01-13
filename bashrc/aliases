@@ -6,4 +6,4 @@ alias la="ls -a"
 alias ll="ls -l"
 alias l="ls"
 
-alias nano="nano --guidestripe 100 --emptyline --linenumbers -s aspell --nohelp"
+alias nano="nano --guidestripe 80 --emptyline --linenumbers -s aspell --nohelp"
