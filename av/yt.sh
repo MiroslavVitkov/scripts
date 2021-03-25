@@ -9,8 +9,9 @@
 # sh yt.sh dQw4w9WgXcQ
 
 
-# Be pedantic. Add `x` for verbosity.
-set -euo pipefail
+set -eu  # stop on first error
+set -o pipefail  # saner pipes; not supported by `dash`
+set -x  # echo executed command
 
 
 # Allocate a .tmp and .mp3 file and read $1.
