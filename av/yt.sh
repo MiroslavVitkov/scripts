@@ -22,10 +22,13 @@ rm "$FILE"
 PREFIX="https://youtube.com/watch?v="
 FORMAT="-x --audio-format mp3"
 ID="$1"
-read -ra ARGS <<< $(echo "$FORMAT -o $FILE.tmp $PREFIX$ID")
+ALL="$FORMAT -o $FILE.tmp $PREFIX$ID"
+ARGS="${ALL}"
 
 # Do the work.
-youtube-dl "${ARGS[@]}"
+#echo "${ARGS[@]}"
+echo "${ARGS[@]}" | xargs youtube-dl
+#youtube-dl "${ARGS[@]}"
 mpv --no-video "$FILE.mp3"
 
 # No `trap` seems to be needed.
