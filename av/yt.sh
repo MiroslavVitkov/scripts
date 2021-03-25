@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 
 # A quick and dirty tool to replace `mps-youtube`
