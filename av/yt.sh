@@ -6,7 +6,7 @@
 # or problems with the API key or whatever.
 #
 # Example use:
-# sh yt.sh dQw4w9WgXcQ
+# ./yt.sh dQw4w9WgXcQ
 
 
 # Be paranoid of errors.
@@ -26,9 +26,7 @@ ALL="$FORMAT -o $FILE.tmp $PREFIX$ID"
 ARGS="${ALL}"
 
 # Do the work.
-#echo "${ARGS[@]}"
 echo "${ARGS[@]}" | xargs youtube-dl
-#youtube-dl "${ARGS[@]}"
 mpv --no-video "$FILE.mp3"
 
 # No `trap` seems to be needed.
