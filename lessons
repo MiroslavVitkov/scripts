@@ -46,3 +46,10 @@ Rule 5: The gain at a point is mult(distances to point) / mult(distances to zero
 # ss
 
 # package fbida provides fbi - see images on virtual terminals!; fdpdf ...
+
+
+declare -i KUR=1
+
+pgrep
+
+last
