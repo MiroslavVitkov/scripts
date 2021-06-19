@@ -23,10 +23,10 @@ PREFIX="https://youtube.com/watch?v="
 FORMAT="-x --audio-format mp3"
 ID="$1"
 ALL="$FORMAT -o $FILE.tmp $PREFIX$ID"
-ARGS="${ALL}"
 
 # Do the work.
-echo "${ARGS[@]}" | xargs youtube-dl
+echo "$ALL" | xargs youtube-dl
+
 mpv --no-video "$FILE.mp3"
 
 # No `trap` seems to be needed.
