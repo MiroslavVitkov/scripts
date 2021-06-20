@@ -25,7 +25,7 @@ cleanup()
 # Trap Ctrl+C to perform cleanup.
 # Trap errors.
 trap cleanup SIGINT SIGTERM
-trap "echo error on line ${LINENO}" ERR
+trap 'echo error on line ${LINENO}' ERR
 
 sudo service network-manager stop
 sudo airmon-ng check kill
