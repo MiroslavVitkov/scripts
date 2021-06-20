@@ -1,3 +1,3 @@
 #!/bin/sh
 
-iwlist scan | egrep -w 'Cell|Channel:|Quality|Encryption key|ESSID|WPA|WPA2|Group Cipher|Pairwise Ciphers|Authentication Suites'
+iwlist scan | grep -wE 'Cell|Channel:|Quality|Encryption key|ESSID|WPA|WPA2|Group Cipher|Pairwise Ciphers|Authentication Suites'
