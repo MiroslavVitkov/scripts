@@ -53,3 +53,12 @@ declare -i KUR=1
 pgrep
 
 last
+
+snort
+<textarea id="postform-text" class="textarea -form js-paste-code" name="PostForm[text]" autofocus="" aria-required="true" style="overflow: hidden; overflow-wrap: break-word; height: 300px;">hanoi n = map (\x -&gt; ((x .&amp;. (x-1)) `mod` 3, ((x .|. (x-1)) + 1) `mod` 3)) [1..shift 1 n]
+main = print $ hanoi 5</textarea>
+a2enmod php
+nano /etc/apache2/apache2.conf - allow /srv/
+
+snort - flexible network intrusion detection system
+bashkur
