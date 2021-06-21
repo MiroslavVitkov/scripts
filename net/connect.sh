@@ -69,7 +69,7 @@ connection_established()
 main()
 {
     WAS_CONNECTED=$(test)
-    while [ true ]; do
+    while true; do
         CONNECTED=$(test)
         log "state: $WAS_CONNECTED $CONNECTED"
 
