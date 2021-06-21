@@ -1,3 +1,13 @@
+#!/usr/bin/env bash
+
+
+# An unsuccessful(yet) attempt to perform tunelling for all protocols.
+
+
+
+set -evx
+
+
 # Create tunnel endpoints.
 cd /tmp
 su
