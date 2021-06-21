@@ -12,4 +12,4 @@ do
     python3 whois.py "$IP" >> results
 done
 
-cat results | sort | uniq -c | sort -rn
+sort < results | uniq -c | sort -rn
