@@ -32,7 +32,7 @@ function run-cli
 function run-gui
 {
     let _DISPLAY=$XDG_VTNR-1
-    xinit -geometry =1920x1080+0+0 "$@" -- ":$_DISPLAY vt$XDG_VTNR"
+    xinit -geometry =1920x1080+0+0 "$@" -- :$_DISPLAY vt$XDG_VTNR
 }
 
 
