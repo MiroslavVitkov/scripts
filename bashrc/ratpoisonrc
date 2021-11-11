@@ -1,0 +1,22 @@
+# ~/.ratpoisonrc
+# Minimal config file for ratpoison.
+
+# Meta key - win key.
+# Press before command, not simultaneously.
+
+# Very basic useg:
+# s, S - split screen into "frames"
+# n, p - within a frame, cycle the "windows" open inside it
+# <tab> - next frame
+# r - resize
+# o - only frame - destroy all other frames
+# R - remove current frame
+# Q - quit ratpoison
+
+escape Super_L
+
+unbind Q
+bind Q quit
+bind o only
+
+set startupmessage 0
