@@ -62,3 +62,16 @@ nano /etc/apache2/apache2.conf - allow /srv/
 
 snort - flexible network intrusion detection system
 bashkur
+
+
+jq - edint JSON
+
+
+help ~= man
+
+--------
+for f in *.txt
+do
+done
+
+instead of parsing `ls`
