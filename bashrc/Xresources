@@ -1,0 +1,4 @@
+xterm*background: black
+xterm*foreground: green
+xterm*faceName: monospace:pixelsize=24
+xterm*utf8: 2
