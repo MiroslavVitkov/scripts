@@ -22,7 +22,7 @@ function rmd
 
 
 # Execute a program and don't care about parent shell or output.
-function run-cli
+function run
 {
     nohup "$@" >/dev/null &
 }
