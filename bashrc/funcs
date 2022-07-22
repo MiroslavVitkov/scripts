@@ -43,13 +43,24 @@ function myfind
 }
 
 
+# Intended to be ran as root.
 function net
 {
-    cd /etc/wpa_supplicant/
-    rm conf
-    ln -s "$1".conf conf
-    /root/bin/connect.sh
-    sleep 1
-    /root/bin/connect.sh
+    # Constants.
+    local IFACE=wlo1
+    local FNAME="$1.conf"
+
+    # All login credentials are stored here.
+    cd /etc/wpa_supplicant/ || return 1
+
+    # The symbolic link 'conf' points to the chosen network.
+    rm -f conf
+    if [ ! -f "$FNAME" ]; then echo 'No such network'; return 2; fi
+    ln -s "$FNAME" conf
+
+    # Authenticate.
+    killall wpa_supplicant dhclient 2>/dev/null
+    wpa_supplicant -c $FNAME -i $IFACE -B || return 3
+    dhclient $IFACE  || return 4
     watch ip a
 }
