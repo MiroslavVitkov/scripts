@@ -41,3 +41,15 @@ function myfind
 {
     find / -name "$1" 2>/dev/null
 }
+
+
+function net
+{
+    cd /etc/wpa_supplicant/
+    rm conf
+    ln -s "$1".conf conf
+    /root/bin/connect.sh
+    sleep 1
+    /root/bin/connect.sh
+    watch ip a
+}
