@@ -13,6 +13,8 @@
 # o - only frame - destroy all other frames
 # R - remove current frame
 # Q - quit ratpoison
+#
+# The same keys also work in bg_pho-utf8 layout.
 
 escape Super_L
 
@@ -21,3 +23,12 @@ bind Q quit
 bind o only
 
 set startupmessage 0
+
+bind Cyrillic_YA quit
+bind Cyrillic_o only
+bind Cyrillic_ka kill
+bind Cyrillic_tse exec xterm
+bind Cyrillic_es split
+bind Cyrillic_ES hsplit
+
+# TODO: shift + space - previous tab
