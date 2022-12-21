@@ -10,3 +10,5 @@ alias l="ls"
 
 alias nano="nano --guidestripe 80 --emptyline --linenumbers -s aspell --nohelp"
 alias see='nano --view'
+
+alias rat="~/proj/rat/python/rat.py"
