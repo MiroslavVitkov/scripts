@@ -6,12 +6,17 @@ do
     BR_FRACTION=$(calc -d "$BR / 96000")
     BAT=$(acpi | sed 's/Discharging/DISCHARGING/')
     TIME=$(date)
+    CPU=$(uptime | cut -d' ' -f11,12,13)
+    MEM=$(awk '/^Mem/ {print $4}' <(free -g))
 
     clear
-    printf "%s\n" "$TIME"
-    printf "%s\n" "$BAT"
-    printf "brightness: %f" "$BR_FRACTION"
+    printf "%s,   " "$TIME"
+    printf "%s,   " "$BAT"
+    printf "brightness: %f,   " "$BR_FRACTION"
+    printf "%s,   " "$CPU"
+    printf "free: %s" "$MEM"
     sleep 2
 
 done
 exit
+while read line; do echo $line; done < /tmp/main.cpp
