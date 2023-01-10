@@ -6,7 +6,7 @@ do
     BR_FRACTION=$(calc -d "$BR / 96000")
     BAT=$(acpi | sed 's/Battery 0: //' | sed 's/Discharging/DISCHARGING/')
     TIME=$(date)
-    CPU=$(uptime | cut -d' ' -f11,12,13)
+    CPU=$(uptime | rev | cut -d' ' -f3,2,1 | rev)
     MEM=$(awk '/^Mem/ {print $4}' <(free -g))
 
     clear
