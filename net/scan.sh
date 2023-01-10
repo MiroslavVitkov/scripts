@@ -1,3 +1,7 @@
 #!/bin/sh
 
-iwlist scan | grep -wE 'Cell|Channel:|Quality|Encryption key|ESSID|WPA|WPA2|Group Cipher|Pairwise Ciphers|Authentication Suites'
+
+# In this file: scan adjacent wifi access points.
+
+
+iw dev wlo1 scan | less
