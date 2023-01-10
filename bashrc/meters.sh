@@ -18,5 +18,3 @@ do
     sleep 2
 
 done
-exit
-while read line; do echo $line; done < /tmp/main.cpp
