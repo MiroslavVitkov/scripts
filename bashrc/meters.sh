@@ -10,11 +10,11 @@ do
     MEM=$(awk '/^Mem/ {print $4}' <(free -g))
 
     clear
-    printf "%s,   " "$TIME"
-    printf "%s,   " "$BAT"
-    printf "brightness: %f,   " "$BR_FRACTION"
-    printf "%s,   " "$CPU"
-    printf "free: %s" "$MEM"
+    printf "%s;   " "$TIME"
+    printf "%s;   " "$BAT"
+    printf "brightness: %f;   " "$BR_FRACTION"
+    printf "%s;   " "$CPU"
+    printf "free: %sG" "$MEM"
     sleep 2
 
 done
