@@ -10,5 +10,7 @@ alias l="ls"
 
 alias nano="nano --guidestripe 80 --emptyline --linenumbers -s aspell --nohelp"
 alias see='nano --view'
-
 alias rat="~/proj/rat/python/rat.py"
+
+# SSDs make searching the entire filesystem trivial.
+alias edit="nano $(find / -name $1 2>/dev/null)"
