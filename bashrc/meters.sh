@@ -51,11 +51,10 @@ do
     # Gather values.
     BR=$(cat "$BR_FILE")
     BR_FRACTION=$(calc -d "$BR / $BR_MAX")
-    TIME=$(date)
     CPU=$(uptime | rev | cut -d' ' -f3,2,1 | rev)
     MEM=$(awk '/^Mem/ {print $4}' <(free -g))
 
-    printf "%s;   " "$TIME" > "$TMP_FILE"
+    printf "%s;   " "$(date)" > "$TMP_FILE"
     battery >> "$TMP_FILE"
     printf "brightness: %f;   " "$BR_FRACTION" >> "$TMP_FILE"
     printf "%s;   " "$CPU" >> "$TMP_FILE"
