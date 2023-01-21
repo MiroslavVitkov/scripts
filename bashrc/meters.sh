@@ -11,12 +11,13 @@ REFRESH_PERIOD=2  # Seconds.
 BR_FILE='/sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness'
 BR_MAX=96000  # Brightness, max allowable value.
 FIELD_SEPARATOR=';   '
-TMP_FILE="$(mktemp)"
+
 
 # Constants.
 RED=$(tput setaf 1)
 WHITE=$(tput setaf 7)
 DEFAULT=$(tput sgr0)
+TMP_FILE="$(mktemp)"
 
 
 # Read battery status and present it concisely.
