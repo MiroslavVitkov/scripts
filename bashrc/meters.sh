@@ -48,9 +48,7 @@ function battery
 
 while true
 do
-    # Gather values.
-    BR=$(cat "$BR_FILE")
-    BR_FRACTION=$(calc -d "$BR / $BR_MAX")
+    BR_FRACTION=$(calc -d $(cat "$BR_FILE") / "$BR_MAX")
     CPU=$(uptime | rev | cut -d' ' -f3,2,1 | rev)
     MEM=$(awk '/^Mem/ {print $4}' <(free -g))
 
