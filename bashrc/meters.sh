@@ -21,7 +21,7 @@ TMP_FILE="$(mktemp)"
 
 
 # Read battery status and present it concisely.
-# If the battery is failing, blink to attract attention.
+# If the battery is failing: blink to attract attention.
 function battery
 {
     # Read the value, [%].
@@ -47,17 +47,22 @@ function battery
 }
 
 
+# Report CPU load.
+function cpu
+{
+    local CPU=$(uptime | rev | cut -d' ' -f1,2,3 | rev) >> "$TMP_FILE"
+    printf "%s$FIELD_SEPARATOR" "$CPU"
+
+}
+
+
 while true
 do
-    BR_FRACTION=$(calc -d $(cat "$BR_FILE") / "$BR_MAX")
-    CPU=$(uptime | rev | cut -d' ' -f3,2,1 | rev)
-    MEM=$(awk '/^Mem/ {print $4}' <(free -g))
-
     printf "%s;   " "$(date)" > "$TMP_FILE"
     battery >> "$TMP_FILE"
-    printf "brightness: %f;   " "$BR_FRACTION" >> "$TMP_FILE"
-    printf "%s;   " "$CPU" >> "$TMP_FILE"
-    printf "free: %sG" "$MEM" >> "$TMP_FILE"
+    printf "brightness: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
+    cpu >> "$TMP_FILE"
+    printf "free: %sG" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
 
     clear
     cat "$TMP_FILE"
