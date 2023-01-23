@@ -29,7 +29,8 @@ function battery
 
     # Blink bright colours if low and discharging.
     local DISCHARGING=$(! echo "$BAT" | grep DISCHARGING > /dev/null ; echo "$?")
-    if [[ "$BAT" =~ ^\w+,\s+(\d+)% ]]; then local PERCENT="${BASH_REMATCH[1]}"; fi
+    if [[ "$BAT" =~ ^\w+,\s+(\d+)%.* ]]; then local PERCENT="${BASH_REMATCH[1]}"; fi
+    echo "[$PERCENT]"
     if [[ "$DISCHARGING" -ne 0 ]] && [[ "$PERCENT" -le "$BAT_CRITICAL" ]]
     then
         if [[ "$BAT_COLOUR" == "$RED" ]]
