@@ -44,7 +44,7 @@ function battery
     fi
 
     # Gloriously print our result respecting global separator setting.
-    printf "%s$FIELD_SEPARATOR" "${BAT_COLOUR}$BAT${DEFAULT}"
+    printf "%s$FIELD_SEPARATOR" "${BAT_COLOUR}$BAT${DEFAULT}" >> "$TMP_FILE"
 }
 
 
@@ -52,17 +52,16 @@ function battery
 function cpu
 {
     local CPU=$(uptime | rev | cut -d' ' -f1,2,3 | rev) >> "$TMP_FILE"
-    printf "%s$FIELD_SEPARATOR" "$CPU"
-
+    printf "%s$FIELD_SEPARATOR" "$CPU" >> "$TMP_FILE"
 }
 
 
 while true
 do
-    printf "%s;   " "$(date)" > "$TMP_FILE"
-    battery >> "$TMP_FILE"
+    printf "%s$FIELD_SEPARATOR" "$(date)" > "$TMP_FILE"
+    battery
     printf "brightness: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
-    cpu >> "$TMP_FILE"
+    cpu
     printf "free: %sG" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
 
     clear
