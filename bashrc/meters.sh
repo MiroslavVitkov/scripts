@@ -30,18 +30,21 @@ function battery
 
     # Blink bright colours if low and discharging.
     local DISCHARGING=$(! echo "$BAT" | grep DISCHARGING > /dev/null ; echo "$?")
-    if [[ "$BAT" =~ ([0-9]+)%.* ]]; then echo INSIDE;local PERCENT="${BASH_REMATCH[1]}"; fi
-    echo "[$PERCENT, $BAT_CRITICAL, $BAT]"
-    if [[ "$DISCHARGING" -ne 0 ]] && [[ "$PERCENT" -le "$BAT_CRITICAL" ]]
-    then
-        if [[ "$BAT_COLOUR" == "$RED" ]]
-        then
-            BAT_COLOUR="$WHITE"
-        else
-            BAT_COLOUR="$RED"
+    if [[ "$BAT" =~ ([0-9]+)%.* ]]; then local PERCENT="${BASH_REMATCH[1]}"; fi
+
+    BAT_COLOUR="$DEFAULT"
+    if [[ "$DISCHARGING" -ne 0 ]]; then
+        if [[ "$PERCENT" -le "$BAT_WARN" ]]; then
+            BAT_COLOUR="$YELLOW"
         fi
-    else
-        BAT_COLOUR="$DEFAULT"
+
+        if [[ "$PERCENT" -le "$BAT_CRITICAL" ]]; then
+            if [[ "$BAT_COLOUR" == "$RED" ]]; then
+                BAT_COLOUR="$WHITE"
+            else
+                BAT_COLOUR="$RED"
+            fi
+        fi
     fi
 
     # Gloriously print our result respecting global separator setting.
