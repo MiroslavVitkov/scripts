@@ -16,6 +16,7 @@ FIELD_SEPARATOR=';   '
 
 # Constants.
 RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
 WHITE=$(tput setaf 7)
 DEFAULT=$(tput sgr0)
 TMP_FILE="$(mktemp)"
@@ -23,6 +24,7 @@ TMP_FILE="$(mktemp)"
 
 # Read battery status and present it concisely.
 # If the battery is failing: blink to attract attention.
+IS_RED=0
 function battery
 {
     # Read the value, [%].
@@ -39,7 +41,8 @@ function battery
         fi
 
         if [[ "$PERCENT" -le "$BAT_CRITICAL" ]]; then
-            if [[ "$BAT_COLOUR" == "$RED" ]]; then
+            IS_RED=$(("$IS_RED" + 1))
+            if [[ $(("$IS_RED" % 2)) -ne 0 ]]; then
                 BAT_COLOUR="$WHITE"
             else
                 BAT_COLOUR="$RED"
