@@ -63,13 +63,26 @@ function cpu
 }
 
 
+# Print temperature of the CPU die.
+# Number of physical CPUs == 1 hardcoded.
+function temperature
+{
+    PACK_TEMP=$(sensors | grep 'Package id 0:')
+    if [[ "$PACK_TEMP" =~ ^"Package id 0:  +"([0-9]+"."[0-9]) ]]; then
+        local TEMP="${BASH_REMATCH[1]}"
+    fi
+    printf "%sC$FIELD_SEPARATOR" "$TEMP" >> "$TMP_FILE"
+}
+
+
 while true
 do
     printf "%s$FIELD_SEPARATOR" "$(date)" > "$TMP_FILE"
     battery
     printf "brightness: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
     cpu
-    printf "free: %sG" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
+    printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
+    temperature
 
     clear
     cat "$TMP_FILE"
