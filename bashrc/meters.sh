@@ -79,7 +79,7 @@ while true
 do
     printf "%s$FIELD_SEPARATOR" "$(date)" > "$TMP_FILE"
     battery
-    printf "brightness: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
+    printf "br: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
     cpu
     printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
     temperature
