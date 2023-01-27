@@ -22,6 +22,14 @@ DEFAULT=$(tput sgr0)
 TMP_FILE="$(mktemp)"
 
 
+# Discard 'EET 2023'.
+function print_date
+{
+    local DATE=$(date | cut -d' ' -f1,2,3,4)
+    printf "%s$FIELD_SEPARATOR" "$DATE" > "$TMP_FILE"
+}
+
+
 # Read battery status and present it concisely.
 # If the battery is failing: blink to attract attention.
 IS_RED=0
@@ -88,7 +96,7 @@ function volume
 
 while true
 do
-    printf "%s$FIELD_SEPARATOR" "$(date)" > "$TMP_FILE"
+    print_date
     battery
     printf "br: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
     cpu
