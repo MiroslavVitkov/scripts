@@ -75,6 +75,17 @@ function temperature
 }
 
 
+function volume
+{
+    VOL=$(amixer -M get Master | grep 'Front Left:')
+#    if [[ "$VOL" != '['([0-9]+)'%]' ]]; then
+        if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
+        local VOLUME="${BASH_REMATCH[1]}"
+    fi
+    printf "vol:%s $FIELD_SEPARATOR" "$VOLUME%" >> "$TMP_FILE"
+}
+
+
 while true
 do
     printf "%s$FIELD_SEPARATOR" "$(date)" > "$TMP_FILE"
@@ -83,6 +94,7 @@ do
     cpu
     printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
     temperature
+    volume
 
     clear
     cat "$TMP_FILE"
