@@ -26,14 +26,14 @@ TMP_FILE="$(mktemp)"
 function print_date
 {
     local DATE=$(date | cut -d' ' -f1,2,3,4)
-    printf "%s$FIELD_SEPARATOR" "$DATE" > "$TMP_FILE"
+    printf "%s$FIELD_SEPARATOR" "$DATE"
 }
 
 
 # Read battery status and present it concisely.
 # If the battery is failing: blink to attract attention.
 IS_RED=0
-function battery
+function print_battery
 {
     # Read the value, [%].
     local BAT=$(acpi | sed 's/Battery 0: //' | sed 's/Discharging/DISCHARGING/')
@@ -59,50 +59,52 @@ function battery
     fi
 
     # Gloriously print our result respecting global separator setting.
-    printf "%s$FIELD_SEPARATOR" "${BAT_COLOUR}$BAT${DEFAULT}" >> "$TMP_FILE"
+    printf "%s$FIELD_SEPARATOR" "${BAT_COLOUR}$BAT${DEFAULT}"
 }
 
 
 # Report CPU load.
-function cpu
+function print_cpu
 {
     local CPU=$(uptime | rev | cut -d' ' -f1,2,3 | rev) >> "$TMP_FILE"
-    printf "%s$FIELD_SEPARATOR" "$CPU" >> "$TMP_FILE"
+    printf "%s$FIELD_SEPARATOR" "$CPU"
 }
 
 
 # Print temperature of the CPU die.
 # Number of physical CPUs == 1 hardcoded.
-function temperature
+function print_temperature
 {
     PACK_TEMP=$(sensors | grep 'Package id 0:')
     if [[ "$PACK_TEMP" =~ ^"Package id 0:  +"([0-9]+"."[0-9]) ]]; then
         local TEMP="${BASH_REMATCH[1]}"
     fi
-    printf "%sC$FIELD_SEPARATOR" "$TEMP" >> "$TMP_FILE"
+    printf "%sC$FIELD_SEPARATOR" "$TEMP"
 }
 
 
-function volume
+function print_volume
 {
     VOL=$(amixer -M get Master | grep 'Front Left:')
-#    if [[ "$VOL" != '['([0-9]+)'%]' ]]; then
         if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
         local VOLUME="${BASH_REMATCH[1]}"
     fi
-    printf "vol:%s $FIELD_SEPARATOR" "$VOLUME%" >> "$TMP_FILE"
+    printf "vol: %s$FIELD_SEPARATOR" "$VOLUME%"
 }
 
 
+# Calculate the whole screen before starting to draw it.
+tput civis  # reverse with 'tput cnorm'.
 while true
 do
-    print_date
-    battery
+    print_date > "$TMP_FILE"
+    print_battery >> "$TMP_FILE"
+
     printf "br: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
-    cpu
+    print_cpu >> "$TMP_FILE"
     printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
-    temperature
-    volume
+    print_temperature >> "$TMP_FILE"
+    print_volume >> "$TMP_FILE"
 
     clear
     cat "$TMP_FILE"
