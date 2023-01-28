@@ -68,6 +68,15 @@ function print_battery
 }
 
 
+# Power to backlight, [% of max].
+function print_brightness
+{
+    local BR=$(calc -d 100*$(cat "$BR_FILE")/"$BR_MAX")
+    BR=$(echo "$BR" | awk '{$1=$1};1')  # trim leading whitespace
+    printf "br: %s$FIELD_SEPARATOR" "$BR%"
+}
+
+
 # Report CPU load.
 function print_cpu
 {
@@ -111,8 +120,7 @@ while true
 do
     print_date > "$TMP_FILE"
     print_battery >> "$TMP_FILE"
-
-    printf "br: %f$FIELD_SEPARATOR" $(calc -d $(cat "$BR_FILE") / "$BR_MAX") >> "$TMP_FILE"
+    print_brightness >> "$TMP_FILE"
     print_cpu >> "$TMP_FILE"
     printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
     print_temperature >> "$TMP_FILE"
