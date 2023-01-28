@@ -12,6 +12,7 @@ REFRESH_PERIOD=2  # Seconds.
 BR_FILE='/sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness'
 BR_MAX=96000  # Brightness, max allowable value.
 FIELD_SEPARATOR=';   '
+PING_TARGET='abv.bg'
 
 
 # Constants.
@@ -38,9 +39,13 @@ function print_battery
     # Read the value, [%].
     local BAT=$(acpi | sed 's/Battery 0: //' | sed 's/Discharging/DISCHARGING/')
 
+    # Trim trailing estimated times.
+    # Not too accurate and take a lot of space.
+    if [[ "$BAT" =~ (.+[0-9]+%), ]]; then BAT="${BASH_REMATCH[1]}"; fi
+
     # Blink bright colours if low and discharging.
     local DISCHARGING=$(! echo "$BAT" | grep DISCHARGING > /dev/null ; echo "$?")
-    if [[ "$BAT" =~ ([0-9]+)%.* ]]; then local PERCENT="${BASH_REMATCH[1]}"; fi
+    if [[ "$BAT" =~ ([0-9]+)% ]]; then local PERCENT="${BASH_REMATCH[1]}"; fi
 
     BAT_COLOUR="$DEFAULT"
     if [[ "$DISCHARGING" -ne 0 ]]; then
@@ -85,11 +90,18 @@ function print_temperature
 
 function print_volume
 {
-    VOL=$(amixer -M get Master | grep 'Front Left:')
-        if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
+    local VOL=$(amixer -M get Master | grep 'Front Left:')
+    if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
         local VOLUME="${BASH_REMATCH[1]}"
     fi
     printf "vol: %s$FIELD_SEPARATOR" "$VOLUME%"
+}
+
+
+function print_ping
+{
+    PING="$(ping -c1 $PING_TARGET | grep 'bytes from' | rev | cut -d' ' -f1,2 | rev | cut -d'=' -f2)"
+    printf "ping: %s$FIELD_SEPARATOR" "$PING"
 }
 
 
@@ -105,6 +117,7 @@ do
     printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
     print_temperature >> "$TMP_FILE"
     print_volume >> "$TMP_FILE"
+    print_ping >> "$TMP_FILE"
 
     clear
     cat "$TMP_FILE"
