@@ -72,8 +72,7 @@ function print_battery
 function print_brightness
 {
     local BR=$(calc -d 100*$(cat "$BR_FILE")/"$BR_MAX")
-    BR=$(echo "$BR" | awk '{$1=$1};1')  # trim leading whitespace
-    printf "br: %s$FIELD_SEPARATOR" "$BR%"
+    printf "br: %.2f%s" "$BR" "%$FIELD_SEPARATOR"
 }
 
 
