@@ -109,7 +109,7 @@ function print_volume
 function print_ping
 {
     PING="$(ping -c1 $PING_TARGET | grep 'bytes from' | rev | cut -d' ' -f1,2 | rev | cut -d'=' -f2)"
-    printf "ping: %s$FIELD_SEPARATOR" "$PING"
+    printf "%s$FIELD_SEPARATOR" "$PING"
 }
 
 
@@ -120,10 +120,10 @@ do
     print_date > "$TMP_FILE"
     print_battery >> "$TMP_FILE"
     print_brightness >> "$TMP_FILE"
-    print_cpu >> "$TMP_FILE"
-    printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
-    print_temperature >> "$TMP_FILE"
     print_volume >> "$TMP_FILE"
+    print_cpu >> "$TMP_FILE"
+    print_temperature >> "$TMP_FILE"
+    printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
     print_ping >> "$TMP_FILE"
 
     clear
