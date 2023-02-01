@@ -25,7 +25,7 @@ TMP_FILE="$(mktemp)"
 # Discard 'EET 2023'.
 function print_date
 {
-    if [[ $(date) =~ (.*)EET ]]; then DATE="${BASH_REMATCH[1]}"; fi
+    if [[ $(date) =~ "(.*) EET" ]]; then DATE="${BASH_REMATCH[1]}"; fi
     printf "%s$FIELD_SEPARATOR" "$DATE"
 }
 
