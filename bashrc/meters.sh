@@ -2,7 +2,6 @@
 
 
 # In this file: terminal based status bar. Intended for ratpoison.
-# TODO: perhaps include 'sensors' output in some way, for example the highest value?
 
 
 # Settings.
@@ -26,7 +25,7 @@ TMP_FILE="$(mktemp)"
 # Discard 'EET 2023'.
 function print_date
 {
-    local DATE=$(date | cut -d' ' -f1,2,3,4)
+    if [[ $(date) =~ (.*)EET ]]; then DATE="${BASH_REMATCH[1]}"; fi
     printf "%s$FIELD_SEPARATOR" "$DATE"
 }
 
