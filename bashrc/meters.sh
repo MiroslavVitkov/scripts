@@ -23,9 +23,9 @@ TMP_FILE="$(mktemp)"
 
 
 # Discard 'EET 2023'.
-function print_date
+function print_time
 {
-    if [[ $(date) =~ "(.*) EET" ]]; then DATE="${BASH_REMATCH[1]}"; fi
+    if [[ $(date) =~ (.*)\ EET ]]; then local DATE="${BASH_REMATCH[1]}"; fi
     printf "%s$FIELD_SEPARATOR" "$DATE"
 }
 
@@ -116,7 +116,7 @@ function print_ping
 tput civis  # reverse with 'tput cnorm'.
 while true
 do
-    print_date > "$TMP_FILE"
+    print_time > "$TMP_FILE"
     print_battery >> "$TMP_FILE"
     print_brightness >> "$TMP_FILE"
     print_volume >> "$TMP_FILE"
