@@ -107,7 +107,10 @@ function print_volume
 
 function print_ping
 {
-    PING="$(ping -c1 $PING_TARGET | grep 'bytes from' | rev | cut -d' ' -f1,2 | rev | cut -d'=' -f2)"
+    PING="$(ping -c1 -i0.1 $PING_TARGET | grep 'bytes from' | rev | cut -d' ' -f1,2 | rev | cut -d'=' -f2)"
+    if [[ ! "$PING" ]] ; then
+        PING='no internet'
+    fi
     printf "%s$FIELD_SEPARATOR" "$PING"
 }
 
