@@ -7,7 +7,7 @@
 # Settings.
 BAT_CRITICAL=20  # Threshold to start blinking; battery low, [%].
 BAT_WARN=40  # Threshold for non-blinking warning,[%].
-REFRESH_PERIOD=2  # Seconds.
+REFRESH_PERIOD=10  # Seconds.
 BR_FILE='/sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness'
 BR_MAX=96000  # Brightness, max allowable value.
 FIELD_SEPARATOR=';   '
