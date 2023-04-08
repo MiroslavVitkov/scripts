@@ -22,10 +22,10 @@ DEFAULT=$(tput sgr0)
 TMP_FILE="$(mktemp)"
 
 
-# Discard 'EET 2023'.
+# Discard 'EE[S]T 2023'.
 function print_time
 {
-    if [[ $(date) =~ (.*)\ EET ]]; then local DATE="${BASH_REMATCH[1]}"; fi
+    if [[ $(date) =~ (.*)\ EES?T ]]; then local DATE="${BASH_REMATCH[1]}"; fi
     printf "%s$FIELD_SEPARATOR" "$DATE"
 }
 
