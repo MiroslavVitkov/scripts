@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 
-setxkbmap -layout "us,bg(phonetic)" -option "grp:alt_shift_toggle"
+setxkbmap -layout "us,bg(phonetic)" -option "grp:switch"
 exec $3
 
 # In .bashrc:
