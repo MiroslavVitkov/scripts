@@ -7,7 +7,7 @@
 # Settings.
 BAT_CRITICAL=20  # Threshold to start blinking; battery low, [%].
 BAT_WARN=40  # Threshold for non-blinking warning,[%].
-REFRESH_PERIOD=10  # Seconds.
+REFRESH_PERIOD=1  # Seconds, can be fractional.
 BR_FILE='/sys/class/backlight/intel_backlight/brightness'
 BR_MAX_FILE='/sys/class/backlight/intel_backlight/max_brightness'
 FIELD_SEPARATOR=';   '
