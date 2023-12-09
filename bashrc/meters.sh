@@ -8,8 +8,8 @@
 BAT_CRITICAL=20  # Threshold to start blinking; battery low, [%].
 BAT_WARN=40  # Threshold for non-blinking warning,[%].
 REFRESH_PERIOD=10  # Seconds.
-BR_FILE='/sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness'
-BR_MAX=96000  # Brightness, max allowable value.
+BR_FILE='/sys/class/backlight/intel_backlight/brightness'
+BR_MAX_FILE='/sys/class/backlight/intel_backlight/max_brightness'
 FIELD_SEPARATOR=';   '
 PING_TARGET='abv.bg'
 
@@ -20,6 +20,7 @@ YELLOW=$(tput setaf 3)
 WHITE=$(tput setaf 7)
 DEFAULT=$(tput sgr0)
 TMP_FILE="$(mktemp)"
+BR_MAX="$(cat $BR_MAX_FILE)"
 
 
 # Discard 'EE[S]T 2023'.
