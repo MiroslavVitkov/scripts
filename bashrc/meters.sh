@@ -116,6 +116,19 @@ function print_ping
 }
 
 
+# To use, enable experimental mode of bluez:
+# sudo sed -i "s/#Experimental = false/Experimental = true/" /etc/bluetooth/main.conf
+# sudo systemct restart bluetooth
+function print_blue_bat
+{
+    local BTBAT=$(bluetoothctl info | grep Battery)
+    if [[ "$BTBAT" =~ '('([0-9]+)')' ]]; then
+        local BAT="${BASH_REMATCH[1]}"
+    fi
+    printf "bt: %s$FIELD_SEPARATOR" "$BAT%"
+}
+
+
 # Calculate the whole screen before starting to draw it.
 tput civis  # reverse with 'tput cnorm'.
 while true
@@ -128,6 +141,7 @@ do
     print_temperature >> "$TMP_FILE"
     printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
     print_ping >> "$TMP_FILE"
+    print_blue_bat >> "$TMP_FILE"
 
     clear
     cat "$TMP_FILE"
