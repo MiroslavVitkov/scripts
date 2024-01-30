@@ -23,10 +23,9 @@ TMP_FILE="$(mktemp)"
 BR_MAX="$(cat $BR_MAX_FILE)"
 
 
-# Discard 'EE[S]T 2023'.
 function print_time
 {
-    if [[ $(date) =~ (.*)\ EES?T ]]; then local DATE="${BASH_REMATCH[1]}"; fi
+    local DATE=$(date +"%a %d %b %R:%S")
     printf "%s$FIELD_SEPARATOR" "$DATE"
 }
 
