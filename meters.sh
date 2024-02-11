@@ -30,7 +30,7 @@ BR_MAX="$(cat $BR_MAX_FILE)"
 
 
 # Helpers.
-function percet_to_frac
+function percent_to_frac
 {
     local FRAC=$(calc -d "$1" / 100)
     # TODO: `1.` and `.23`
@@ -56,7 +56,7 @@ function print_battery
     local DISCHARGING=$(! echo "$BAT" | grep "Discharging" > /dev/null ; echo "$?")
     if [[ "$BAT" =~ ([0-9]+)% ]]; then
         local PERCENT="${BASH_REMATCH[1]}"; fi
-    local FRACTION=$(percet_to_frac "$PERCENT")
+    local FRACTION=$(percent_to_frac "$PERCENT")
 
     # Blink bright colours if low and discharging.
     BAT_COLOUR="$DEFAULT"
@@ -87,8 +87,18 @@ function print_battery
 # Power to backlight, [% of max].
 function print_brightness
 {
-    local BR=$(calc -d 100*$(cat "$BR_FILE")/"$BR_MAX")
-    printf "br: %.2f%s" "$BR" "%$FIELD_SEPARATOR"
+    local BR=$(calc -d $(cat "$BR_FILE")/"$BR_MAX")
+    printf "br: %.2f%s" "$BR" "$FIELD_SEPARATOR"
+}
+
+
+function print_volume
+{
+    local VOL=$(amixer -M get Master | grep 'Front Left:')
+    if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
+        local VOLUME=$(percent_to_frac "${BASH_REMATCH[1]}")
+    fi
+    printf "vol: %.2f$FIELD_SEPARATOR" "$VOLUME"
 }
 
 
@@ -96,7 +106,7 @@ function print_brightness
 function print_cpu
 {
     local CPU=$(uptime | rev | cut -d' ' -f1,2,3 | rev) >> "$TMP_FILE"
-    printf "%s$FIELD_SEPARATOR" "$CPU"
+    printf "load: %s$FIELD_SEPARATOR" "$CPU"
 }
 
 
@@ -109,16 +119,6 @@ function print_temperature
         local TEMP="${BASH_REMATCH[1]}"
     fi
     printf "%sC$FIELD_SEPARATOR" "$TEMP"
-}
-
-
-function print_volume
-{
-    local VOL=$(amixer -M get Master | grep 'Front Left:')
-    if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
-        local VOLUME="${BASH_REMATCH[1]}"
-    fi
-    printf "vol: %s$FIELD_SEPARATOR" "$VOLUME%"
 }
 
 
