@@ -4,6 +4,12 @@
 # In this file: terminal based status bar. Intended for ratpoison.
 
 
+# Depents: calc, sensors | acpi, bash regex.
+
+
+# TODO: set -ex
+
+
 # Settings.
 BAT_CRITICAL=20  # Threshold to start blinking; battery low, [%].
 BAT_WARN=40  # Threshold for non-blinking warning,[%].
@@ -23,6 +29,16 @@ TMP_FILE="$(mktemp)"
 BR_MAX="$(cat $BR_MAX_FILE)"
 
 
+# Helpers.
+function percet_to_frac
+{
+    local FRAC=$(calc -d "$1" / 100)
+    # TODO: `1.` and `.23`
+    echo "$FRAC"
+}
+
+
+# Actual worker procedures.
 function print_time
 {
     local DATE=$(date +"%a %d %b %R:%S")
@@ -37,6 +53,7 @@ function print_battery
 {
     # Read the value, [%].
     local BAT=$(acpi | sed 's/Battery 0: //' | sed 's/Discharging/DISCHARGING/')
+    if [[ "$BAT" =~ .*([0-9].)% ]] ; then local BAT_NUM="${BASH_REMATCH[1]}"; fi
 
     # Trim trailing estimated times.
     # Not too accurate and take a lot of space.
@@ -87,7 +104,7 @@ function print_cpu
 # Number of physical CPUs == 1 hardcoded.
 function print_temperature
 {
-    PACK_TEMP=$(sensors | grep 'Package id 0:')
+    PACK_TEMP=$(sensors | grep 'Package id 0:')  # Alternatively `acpi -t`.
     if [[ "$PACK_TEMP" =~ ^"Package id 0:  +"([0-9]+"."[0-9]) ]]; then
         local TEMP="${BASH_REMATCH[1]}"
     fi
