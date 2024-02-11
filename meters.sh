@@ -52,17 +52,13 @@ IS_RED=0
 function print_battery
 {
     # Read the value, [%].
-    local BAT=$(acpi | sed 's/Battery 0: //' | sed 's/Discharging/DISCHARGING/')
-    if [[ "$BAT" =~ .*([0-9].)% ]] ; then local BAT_NUM="${BASH_REMATCH[1]}"; fi
-
-    # Trim trailing estimated times.
-    # Not too accurate and take a lot of space.
-    if [[ "$BAT" =~ (.+[0-9]+%), ]]; then BAT="${BASH_REMATCH[1]}"; fi
+    local BAT=$(acpi)
+    local DISCHARGING=$(! echo "$BAT" | grep "Discharging" > /dev/null ; echo "$?")
+    if [[ "$BAT" =~ ([0-9]+)% ]]; then
+        local PERCENT="${BASH_REMATCH[1]}"; fi
+    local FRACTION=$(percet_to_frac "$PERCENT")
 
     # Blink bright colours if low and discharging.
-    local DISCHARGING=$(! echo "$BAT" | grep DISCHARGING > /dev/null ; echo "$?")
-    if [[ "$BAT" =~ ([0-9]+)% ]]; then local PERCENT="${BASH_REMATCH[1]}"; fi
-
     BAT_COLOUR="$DEFAULT"
     if [[ "$DISCHARGING" -ne 0 ]]; then
         if [[ "$PERCENT" -le "$BAT_WARN" ]]; then
@@ -77,10 +73,14 @@ function print_battery
                 BAT_COLOUR="$RED"
             fi
         fi
+
+        local WARNING=" ${BAT_COLOUR}discharging${DEFAULT}"
+    else
+        local WARNING=""
     fi
 
     # Gloriously print our result respecting global separator setting.
-    printf "%s$FIELD_SEPARATOR" "${BAT_COLOUR}$BAT${DEFAULT}"
+    printf "bat: %.2f$WARNING$FIELD_SEPARATOR" "$FRACTION"
 }
 
 
