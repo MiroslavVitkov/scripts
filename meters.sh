@@ -2,12 +2,10 @@
 
 
 # In this file: terminal based status bar. Intended for ratpoison.
-
-
 # Depents: calc, sensors | acpi, bash regex.
 
 
-# TODO: set -ex
+set -euo pipefail
 
 
 # Settings.
