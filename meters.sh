@@ -26,13 +26,22 @@ DEFAULT=$(tput sgr0)
 TMP_FILE="$(mktemp)"
 BR_MAX="$(cat $BR_MAX_FILE)"
 
-
+#printf "vol: %.2f$FIELD_SEPARATOR" "$VOLUME"
 # Helpers.
+
+# in - percentage
+# out - fraction, rounded to 2 decimal places, leading 0. or trailing .00 stripped.
 function percent_to_frac
 {
     local FRAC=$(calc -d "$1" / 100)
-    # TODO: `1.` and `.23`
-    echo "$FRAC"
+    local ROUNDED=$(printf "%.2f" "$FRAC")
+    if [[ "$ROUNDED" =~ '0'('.'[0-9]+) ]]; then
+        ROUNDED="${BASH_REMATCH[1]}"
+    fi
+    if [[ "$ROUNDED" =~ ([0-9]+'.')'00' ]]; then
+        ROUNDED="${BASH_REMATCH[1]}"
+    fi
+    echo "$ROUNDED"
 }
 
 
@@ -78,7 +87,7 @@ function print_battery
     fi
 
     # Gloriously print our result respecting global separator setting.
-    printf "bat: %.2f$WARNING$FIELD_SEPARATOR" "$FRACTION"
+    printf "bat: %s$WARNING$FIELD_SEPARATOR" "$FRACTION"
 }
 
 
@@ -96,7 +105,7 @@ function print_volume
     if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
         local VOLUME=$(percent_to_frac "${BASH_REMATCH[1]}")
     fi
-    printf "vol: %.2f$FIELD_SEPARATOR" "$VOLUME"
+    printf "vol: %s$FIELD_SEPARATOR" "$VOLUME"
 }
 
 
@@ -116,7 +125,7 @@ function print_temperature
     if [[ "$PACK_TEMP" =~ ^"Package id 0:  +"([0-9]+"."[0-9]) ]]; then
         local TEMP="${BASH_REMATCH[1]}"
     fi
-    printf "%sC$FIELD_SEPARATOR" "$TEMP"
+    printf "%s C$FIELD_SEPARATOR" "$TEMP"
 }
 
 
@@ -137,9 +146,9 @@ function print_blue_bat
 {
     local BTBAT=$(bluetoothctl info | grep Battery)
     if [[ "$BTBAT" =~ '('([0-9]+)')' ]]; then
-        local BAT="${BASH_REMATCH[1]}"
+        BAT=$( percent_to_frac "${BASH_REMATCH[1]}" )
     fi
-    printf "bt: %s$FIELD_SEPARATOR" "$BAT%"
+    printf "bt: %s$FIELD_SEPARATOR" "$BAT"
 }
 
 
@@ -153,7 +162,7 @@ do
     print_volume >> "$TMP_FILE"
     print_cpu >> "$TMP_FILE"
     print_temperature >> "$TMP_FILE"
-    printf "free: %sG$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
+    printf "free: %s G$FIELD_SEPARATOR" $(awk '/^Mem/ {print $4}' <(free -g)) >> "$TMP_FILE"
     print_ping >> "$TMP_FILE"
     print_blue_bat >> "$TMP_FILE"
 
