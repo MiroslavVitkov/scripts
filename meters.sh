@@ -131,7 +131,7 @@ function print_temperature
 
 function print_ping
 {
-    PING="$(ping -c1 -i0.1 $PING_TARGET | grep 'bytes from' | rev | cut -d' ' -f1,2 | rev | cut -d'=' -f2)"
+    local PING="$(ping -c1 $PING_TARGET 2>/dev/null | grep 'bytes from' | rev | cut -d' ' -f1,2 | rev | cut -d'=' -f2)"
     if [[ ! "$PING" ]] ; then
         PING='no internet'
     fi
