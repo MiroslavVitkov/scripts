@@ -148,11 +148,13 @@ function print_ping
 function print_blue_bat
 {
     local BTBAT=$(bluetoothctl info | grep Battery)
-    local BAT='x'
+    local BAT=""
     if [[ "$BTBAT" =~ '('([0-9]+)')' ]]; then
         BAT=$( percent_to_frac "${BASH_REMATCH[1]}" )
     fi
-    printf "bt: %s$FIELD_SEPARATOR" "$BAT"
+    if [[ "$BAT" ]]; then
+        printf "bt: %s$FIELD_SEPARATOR" "$BAT"
+    fi
 }
 
 
