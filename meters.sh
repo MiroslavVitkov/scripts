@@ -94,16 +94,18 @@ function print_battery
 # Power to backlight, [% of max].
 function print_brightness
 {
-    local BR=$(calc -d $(cat "$BR_FILE")/"$BR_MAX")
-    printf "br: %.2f%s" "$BR" "$FIELD_SEPARATOR"
+    local BR_PER=$(calc -d $(cat "$BR_FILE")"*100/$BR_MAX")
+    local BR=$(percent_to_frac "$BR_PER")
+    printf "br: %s$FIELD_SEPARATOR" "$BR"
 }
 
 
 function print_volume
 {
     local VOL=$(amixer -M get Master | grep 'Front Left:')
+    local VOLUME=""
     if [[ "$VOL" =~ '['([0-9]+)'%]' ]]; then
-        local VOLUME=$(percent_to_frac "${BASH_REMATCH[1]}")
+        VOLUME=$(percent_to_frac "${BASH_REMATCH[1]}")
     fi
     printf "vol: %s$FIELD_SEPARATOR" "$VOLUME"
 }
@@ -122,8 +124,9 @@ function print_cpu
 function print_temperature
 {
     PACK_TEMP=$(sensors | grep 'Package id 0:')  # Alternatively `acpi -t`.
+    local TEMP='ERR'
     if [[ "$PACK_TEMP" =~ ^"Package id 0:  +"([0-9]+"."[0-9]) ]]; then
-        local TEMP="${BASH_REMATCH[1]}"
+        TEMP="${BASH_REMATCH[1]}"
     fi
     printf "%s C$FIELD_SEPARATOR" "$TEMP"
 }
@@ -145,6 +148,7 @@ function print_ping
 function print_blue_bat
 {
     local BTBAT=$(bluetoothctl info | grep Battery)
+    local BAT='x'
     if [[ "$BTBAT" =~ '('([0-9]+)')' ]]; then
         BAT=$( percent_to_frac "${BASH_REMATCH[1]}" )
     fi
