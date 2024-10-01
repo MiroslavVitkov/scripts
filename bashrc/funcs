@@ -64,3 +64,19 @@ function net
     dhclient $IFACE  || return 4
     watch ip a
 }
+
+
+# Tar a directory.
+# Drop last character if it's '/'.
+function compress
+{
+    NAME="$1"
+    if [[ "${NAME: -1}" == '/' ]]; then
+        NAME="${NAME::-1}"
+    fi
+    TARNAME="$NAME".tar.gz
+
+    tar czf "$TARNAME" "$NAME"
+
+    du -h "$TARNAME"
+}
