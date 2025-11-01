@@ -25,6 +25,7 @@ function rmd
 function run
 {
     nohup "$@" >/dev/null &
+    kill -SIGUSR1 $(ps --pid $$ -oppid=)  # kill the parent!
 }
 
 
